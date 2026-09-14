@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: pinbook-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pinbook
+      POSTGRES_USER: pinbook
+      POSTGRES_PASSWORD: pinbook
+    ports:
+      - "5432:5432"
+    volumes:
+      - pinbook_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pinbook -d pinbook"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: pinbook-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: pinbook-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: pinbook
+      RABBITMQ_DEFAULT_PASS: pinbook
+    ports:
+      - "5672:5672"   # protocolo AMQP (usado pela aplicação)
+      - "15672:15672" # painel de administração (http://localhost:15672)
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: pinbook-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # servidor SMTP (usado pela aplicação para "enviar" e-mails)
+      - "8025:8025" # interface web para visualizar os e-mails enviados
+
+volumes:
+  pinbook_postgres_data:
