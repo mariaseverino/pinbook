@@ -37,20 +37,34 @@ public class SpaceService {
                 .description(request.description())
                 .capacity(request.capacity())
                 .batchMaintenanceTime(request.batchMaintenanceTime())
+                .pricePerMinute(request.pricePerMinute())
                 .owner(owner)
                 .build();
 
         Space space = spaceRepository.save(newSpace);
 
-        return new CreateSpaceResponse(space.getId(), space.getName(), space.getDescription(), space.getCep(), space.getCapacity(), space.getBatchMaintenanceTime());
-
+        return new CreateSpaceResponse(
+            space.getId(),
+            space.getName(),
+            space.getDescription(),
+            space.getCep(),
+            space.getCapacity(),
+            space.getBatchMaintenanceTime(),
+            space.getPricePerMinute());
     }
 
     public CreateSpaceResponse getSpace(UUID spaceId){
         Space space = spaceRepository.findById(spaceId)
             .orElseThrow(() -> new ResourceNotFoundException("Espaço não encontrado"));
 
-        return new CreateSpaceResponse(space.getId(), space.getName(), space.getDescription(), space.getCep(), space.getCapacity(), space.getBatchMaintenanceTime());
+        return new CreateSpaceResponse(
+            space.getId(),
+            space.getName(),
+            space.getDescription(),
+            space.getCep(),
+            space.getCapacity(),
+            space.getBatchMaintenanceTime(),
+            space.getPricePerMinute());
     }
 
 }

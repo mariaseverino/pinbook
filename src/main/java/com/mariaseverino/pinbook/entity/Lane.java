@@ -27,6 +27,10 @@ public class Lane {
     @Column(nullable = false)
     private Integer capacity;
 
+    @NotNull
+    @Column(name = "price_per_minute", nullable = false)
+    private Float pricePerMinute;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "space_id", nullable = false)

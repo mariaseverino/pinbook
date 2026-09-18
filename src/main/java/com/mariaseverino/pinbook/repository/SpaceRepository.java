@@ -7,6 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SpaceRepository extends JpaRepository<Space, UUID> {
-    Optional<Space> findById(UUID id);
     boolean existsByName(String name);
 }

@@ -34,6 +34,10 @@ public class Booking {
     @Column(name = "end_time", nullable = false)
     private Instant endTime;
 
+    @NotNull
+    @Column(nullable = false)
+    private Float price;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     @JoinColumn(name = "client_id", nullable = false)

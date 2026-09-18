@@ -8,5 +8,6 @@ public record CreateSpaceResponse(
         String description,
         String cep,
         Integer capacity,
-        Integer batchMaintenanceTime
+        Integer batchMaintenanceTime,
+        Float pricePerMinute
 ) {}

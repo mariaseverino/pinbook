@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class OperatingHour {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "week_day", nullable = false)
-    private WeekDay weekDay;
+    private DayOfWeek weekDay;
 
     @Column(nullable = false)
     private boolean active;
@@ -38,16 +39,6 @@ public class OperatingHour {
     @NotNull
     @JoinColumn(name = "space_id", nullable = false)
     private Space space;
-
-    public enum WeekDay {
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY
-    }
 
 }
 

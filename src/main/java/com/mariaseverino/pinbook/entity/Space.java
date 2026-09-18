@@ -45,6 +45,10 @@ public class Space {
     @Column(name = "batch_maintenance_time", nullable = false)
     private Integer batchMaintenanceTime;
 
+    @NotNull
+    @Column(name = "price_per_minute", nullable = false)
+    private Float pricePerMinute;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

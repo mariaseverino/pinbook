@@ -9,5 +9,6 @@ public record CreateSpaceRequest(
         @NotBlank String description,
         @NotBlank String cep,
         @NotNull @Min(1) Integer capacity,
-        @NotNull Integer batchMaintenanceTime
+        @NotNull Integer batchMaintenanceTime,
+        @NotNull Float pricePerMinute
 ) {}

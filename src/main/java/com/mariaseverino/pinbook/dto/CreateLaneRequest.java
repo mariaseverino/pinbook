@@ -8,5 +8,6 @@ import java.util.UUID;
 public record CreateLaneRequest(
         @NotBlank String name,
         @NotNull Integer capacity,
+        @NotNull Float pricePerMinute,
         @NotNull UUID spaceId
 ) {}

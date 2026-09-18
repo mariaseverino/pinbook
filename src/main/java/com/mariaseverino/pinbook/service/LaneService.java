@@ -26,10 +26,21 @@ public class LaneService {
             throw new ResourceNotFoundException("Esta lane ja existe");
         }
 
-        Lane newLane = Lane.builder().name(request.name()).capacity(request.capacity()).space(space).build();
+        Lane newLane = Lane.builder().
+                name(request.name())
+                .capacity(request.capacity())
+                .space(space)
+                .pricePerMinute(request.pricePerMinute())
+                .build();
 
         Lane lane = laneRepository.save(newLane);
 
-        return new CreateLaneResponse(lane.getId(), lane.getName(), lane.getCapacity(), lane.getSpace().getId());
+        return new CreateLaneResponse(
+            lane.getId(),
+            lane.getName(),
+            lane.getCapacity(),
+            lane.getPricePerMinute(),
+            lane.getSpace().getId()
+        );
     }
 }
