@@ -8,5 +8,6 @@ public record CreateSpaceRequest(
         @NotBlank String name,
         @NotBlank String description,
         @NotBlank String cep,
-        @NotNull @Min(1) Integer capacity
-){}
+        @NotNull @Min(1) Integer capacity,
+        @NotNull Integer batchMaintenanceTime
+) {}

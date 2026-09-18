@@ -8,6 +8,7 @@ import com.mariaseverino.pinbook.repository.UserRepository;
 import com.mariaseverino.pinbook.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class AuthService {
             throw new BadCredentialsException("Credenciais inválidas");
         }
 
-        String accessToken = jwtService.generateAccessToken(user.getEmail(), user.getRole().name());
+        String accessToken = jwtService.generateAccessToken(user.getEmail(), user.getRole().name(), user.getId());
         String refreshToken = jwtService.generateRefreshToken(user.getEmail());
 
         return new AuthenticatedResponse(accessToken, refreshToken);
@@ -51,7 +52,7 @@ public class AuthService {
 
         userRepository.save(newUser);
 
-        String accessToken = jwtService.generateAccessToken(newUser.getEmail(), newUser.getRole().name());
+        String accessToken = jwtService.generateAccessToken(newUser.getEmail(), newUser.getRole().name(), newUser.getId());
         String refreshToken = jwtService.generateRefreshToken(newUser.getEmail());
 
         return new AuthenticatedResponse(accessToken, refreshToken);

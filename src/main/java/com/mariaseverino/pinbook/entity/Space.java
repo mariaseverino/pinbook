@@ -7,10 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "space")
+@Table(name = "spaces")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,6 +41,10 @@ public class Space {
     @Column(nullable = false)
     private Integer capacity;
 
+    @NotNull
+    @Column(name = "batch_maintenance_time", nullable = false)
+    private Integer batchMaintenanceTime;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -47,9 +53,23 @@ public class Space {
         this.createdAt = Instant.now();
     }
 
-    @ManyToOne
-    @NotBlank
-    @JoinColumn(name = "owner", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
+    @OneToMany(
+            mappedBy = "space",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<OperatingHour> operatingHours = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "space",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Lane> lanes = new ArrayList<>();
 
 }
