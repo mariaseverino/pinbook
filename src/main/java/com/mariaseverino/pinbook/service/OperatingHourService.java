@@ -10,6 +10,7 @@ import com.mariaseverino.pinbook.repository.SpaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class OperatingHourService {
 
         List<CreateOperatingHoursRequest.OperatingHourItem> operatingHours = request.hours();
 
-        Set<OperatingHour.WeekDay> weekDays = operatingHours.stream()
+        Set<DayOfWeek> weekDays = operatingHours.stream()
             .map(CreateOperatingHoursRequest.OperatingHourItem::weekDay)
             .collect(Collectors.toSet());
 

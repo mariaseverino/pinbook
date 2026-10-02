@@ -1,7 +1,6 @@
 package com.mariaseverino.pinbook.dto;
 
-import com.mariaseverino.pinbook.entity.OperatingHour;
-
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +10,7 @@ public record CreateOperatingHoursResponse(
 ) {
     public record OperatingHourItem(
             UUID id,
-            OperatingHour.WeekDay weekDay,
+            DayOfWeek weekDay,
             boolean active,
             LocalTime openingTime,
             LocalTime closingTime

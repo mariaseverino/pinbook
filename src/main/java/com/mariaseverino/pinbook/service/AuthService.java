@@ -30,7 +30,7 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user.getEmail(), user.getRole().name(), user.getId());
         String refreshToken = jwtService.generateRefreshToken(user.getEmail());
 
-        return new AuthenticatedResponse(accessToken, refreshToken);
+        return new AuthenticatedResponse(accessToken, user.getId().toString());
     }
 
     public AuthenticatedResponse register(RegisterRequest request){
@@ -46,7 +46,7 @@ public class AuthService {
         User newUser = User.builder().name(request.name())
                 .email(request.email())
                 .passwordHash(passwordHash)
-                .role(User.Role.CLIENT)
+                .role(User.Role.OWNER)
                 .build();
 
 

@@ -1,6 +1,7 @@
 package com.mariaseverino.pinbook.exception;
 
 import com.mariaseverino.pinbook.dto.ErrorResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
@@ -58,6 +59,37 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponse.of(ex.getMessage()));
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
+        DataIntegrityViolationException ex
+    ) {
+        if (hasConstraint(ex, "uk_space_start_time")
+            || hasConstraint(ex, "uk_lane_start_time")) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ErrorResponse.of("Horário indisponível"));
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ErrorResponse.of("Erro interno no servidor"));
+    }
+
+    private boolean hasConstraint(Throwable ex, String constraintName) {
+        Throwable current = ex;
+
+        while (current != null) {
+            if (current.getMessage() != null
+                && current.getMessage().contains(constraintName)) {
+                return true;
+            }
+
+            current = current.getCause();
+        }
+
+        return false;
+    }
+
 
     // 500 — qualquer coisa não tratada (rede de segurança)
     @ExceptionHandler(Exception.class)

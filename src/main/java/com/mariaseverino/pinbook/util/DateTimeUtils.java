@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 
 public class DateTimeUtils {
-    private static final ZoneId APP_ZONE = ZoneId.of("America/Sao_Paulo");
+    public static final ZoneId APP_ZONE = ZoneId.of("America/Sao_Paulo");
 
     private DateTimeUtils() {
     }

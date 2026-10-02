@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (jwtService.isTokenValid(token)) {
             String email = jwtService.extractEmail(token);
             String role = jwtService.extractRole(token);
-            UUID userId = jwtService.extractUserId(token); // novo método, veja abaixo
+            UUID userId = jwtService.extractUserId(token);
 
             AuthenticatedUser principal = new AuthenticatedUser(userId, email, role);
 

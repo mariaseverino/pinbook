@@ -3,11 +3,12 @@ package com.mariaseverino.pinbook.dto;
 import java.time.Instant;
 import java.util.UUID;
 
-public record CreateSpaceBookingResponse(
+public record CreateLaneBookingResponse(
     UUID id,
     Instant startTime,
     Integer durationMinutes,
     Float price,
     String clientName,
-    String spaceName
+    String spaceName,
+    String laneName
 ) {}

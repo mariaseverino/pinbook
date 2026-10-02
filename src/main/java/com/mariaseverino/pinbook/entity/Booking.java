@@ -44,7 +44,7 @@ public class Booking {
     private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "space_id", nullable = true)
+    @JoinColumn(name = "space_id", nullable = false)
     private Space space;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,13 +54,26 @@ public class Booking {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @AssertTrue(message = "A reserva deve ter exatamente uma pista OU um espaço, não ambos nem nenhum")
-    private boolean isValidTarget() {
-        return (lane != null) ^ (space != null); // XOR: só um dos dois pode ser verdadeiro
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
     }
+
+//    @AssertTrue(message = "A reserva deve ter exatamente uma pista OU um espaço, não ambos nem nenhum")
+//    private boolean isValidTarget() {
+//        return (lane != null) ^ (space != null); // XOR: só um dos dois pode ser verdadeiro
+//    }
 
     @AssertTrue(message = "O horário de fim da reserva deve ser depois do horário de início")
     private boolean isValidSchedule() {
         return endTime != null && startTime != null && endTime.isAfter(startTime);
     }
+
+//    @Override
+//    public String toString() {
+//        return "Booking{" +
+//            "id=" + id +
+//            ", startTime=" + startTime +
+//            '}';
+//    }
 }
