@@ -15,4 +15,5 @@ public interface SpaceRepository extends JpaRepository<Space, UUID> {
     @Query("SELECT s FROM Space s WHERE s.id = :id")
     Optional<Space> findByIdWithLock(@Param("id") UUID id);
     boolean existsByName(String name);
+    boolean existsByIdAndOwnerId(UUID spaceId, UUID ownerId);
 }

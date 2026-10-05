@@ -35,4 +35,14 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
         @Param("endTime") Instant endTime
     );
 
+    @Query("""
+        SELECT COUNT(b) > 0
+        FROM Booking b
+        WHERE b.space.id = :spaceIdORLaneId
+        OR b.lane.id = :spaceIdORLaneId
+    """)
+    boolean existsAnyBooking(
+        @Param("spaceIdORLaneId") UUID spaceIdORLaneId
+    );
+
 }

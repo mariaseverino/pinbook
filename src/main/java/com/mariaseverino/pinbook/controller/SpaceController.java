@@ -27,11 +27,30 @@ public class  SpaceController {
             "Espaco criado com sucesso"
         );
     }
-    @GetMapping("/space/{spaceId}")
+    @GetMapping("/{spaceId}")
     public ResponseEntity<SuccessResponse<CreateSpaceResponse>> getSpace(@PathVariable UUID spaceId){
         return ApiResponse.ok(
             spaceService.getSpace(spaceId),
             "Espaço encontrado"
+        );
+    }
+
+    @PutMapping("/update/{spaceId}")
+    @PreAuthorize("hasRole('OWNER') and @spaceRepository.existsByIdAndOwnerId(#spaceId, authentication.principal.userId)")
+    public ResponseEntity<SuccessResponse<UpdateSpaceResponse>> updateSpace(@PathVariable UUID spaceId, @Valid @RequestBody UpdateSpaceRequest request){
+        return ApiResponse.ok(
+            spaceService.updateSpace(request, spaceId),
+            "Espaço atualizado"
+        );
+    }
+
+    @DeleteMapping("/delete/{spaceId}")
+    @PreAuthorize("hasRole('OWNER') and @spaceRepository.existsByIdAndOwnerId(#spaceId, authentication.principal.userId)")
+    public ResponseEntity<SuccessResponse<Void>> deleteSpace(@PathVariable UUID spaceId){
+        spaceService.deleteSpace(spaceId);
+        return ApiResponse.ok(
+            null,
+            "Espaço deletado com sucesso"
         );
     }
 }
